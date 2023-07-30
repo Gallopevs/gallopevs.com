@@ -49,3 +49,36 @@ body {
     color: #fff;
     border-bottom-color: #fff;
 }
+
+.vehicle-list{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+}
+
+.vehicle-list .card {
+    margin: 0.5rem;
+    transition: transform 0.3s;
+
+    background: #212529;
+    border: 1px solid #1b1f22;
+    word-wrap: break-word;   
+    border-radius: .25rem;
+}
+
+.vehicle-list .card:hover {
+    transform: scale(1.025);
+}
+
+.vehicle-list .card-body {
+    padding: 0.5rem;
+}
+
+.vehicle-list .card-body h2{
+    margin-top: 0.5rem;
+}
+
+.vehicle-list .card-body a{
+    text-decoration: none;
+}
