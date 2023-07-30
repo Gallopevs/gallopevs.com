@@ -1,47 +1,43 @@
+{% import 'macros/head.html' as macros_head %}
+{% import 'macros/header.html' as macros_header %}
+{% import 'macros/footer.html' as macros_footer %}
+{% import 'macros/javascript.html' as macros_js %}
 <!DOCTYPE html>
-<html lang="en" class="h-100" data-bs-theme="light">
+<html lang="{{ config.extra.language_code | default(value=" en-US") }}" class="h-100" data-bs-theme="light">
 
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="Gallop Electric Vehicles" />
-  <meta name="author" content="Gallop Electric Vehicles" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  {{ macros_head::resource() }}
+  {{ macros_head::stylesheet() }}
 
-  <title>Gallop Electric Vehicles</title>
+  {% block seo %}
+  {% if config.extra.title_separator %}
+  {% set title_separator = " " ~ config.extra.title_separator ~ " " %}
+  {% else %}
+  {% set title_separator = " | " %}
+  {% endif %}
+  {% endblock seo %}
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  {{ macros_head::favicons() }}
 
-  <link href="style.css" rel="stylesheet">
 </head>
 
 <body class="d-flex h-100 text-center text-bg-dark">
-
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="mb-auto">
-      <div>
-        <h3 class="float-md-start mb-0">Gallop</h3>
-        <nav class="nav nav-masthead justify-content-center float-md-end">
-          <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
-          <a class="nav-link fw-bold py-1 px-0" href="#">Vehicles</a>
-          <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
-        </nav>
-      </div>
-    </header>
+    {% block header %}
+    {{ macros_header::header(current_section="/") }}
+    {% endblock header %}
 
-    <main class="px-3">
-      <section class="section">
-        <div>
-          {% block content %} {% endblock %}
-        </div>
-      </section>
-    </main>
+    {% block content %} {% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-      crossorigin="anonymous"></script>
+    {% block footer %}
+    {{ macros_footer::footer() }}
+    {% endblock footer %}
+
+    {{ macros_js::javascript() }}
+  </div>
 </body>
 
 </html>
