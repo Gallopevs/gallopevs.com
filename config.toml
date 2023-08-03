@@ -78,6 +78,9 @@ repo_branch = "main"
 math = false
 library = "katex"  # options: "katex", "mathjax". default is "katex".
 
+#Google analytics
+ganalytics = "G-MVPB4J862R"
+
 ## Open Graph + Twitter Cards
 [extra.open]
 enable = true
