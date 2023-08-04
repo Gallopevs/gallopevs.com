@@ -23,7 +23,7 @@ body {
 }
 
 .cover-container {
-    max-width: 42em;
+    max-width: 50%;
 }
 
 
@@ -50,20 +50,23 @@ body {
     border-bottom-color: #fff;
 }
 
-.vehicle-list{
+.vehicle-list {
     position: relative;
     display: flex;
-    flex-direction: row;
-    min-width: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .vehicle-list .card {
     margin: 0.5rem;
     transition: transform 0.3s;
+    width: 12rem;
 
     background: #212529;
     border: 1px solid #1b1f22;
-    word-wrap: break-word;   
+    word-wrap: break-word;
     border-radius: .25rem;
 }
 
@@ -75,10 +78,10 @@ body {
     padding: 0.5rem;
 }
 
-.vehicle-list .card-body h2{
+.vehicle-list .card-body h2 {
     margin-top: 0.5rem;
 }
 
-.vehicle-list .card-body a{
+.vehicle-list .card-body a {
     text-decoration: none;
 }

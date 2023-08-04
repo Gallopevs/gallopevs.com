@@ -20,12 +20,15 @@
           <div class="vehicle-list">
             {% for page in paginator.pages %}
             <div class="card text-bg-dark">
+              {% set url = get_url(path="images/" ~ page.title ~ "-1.png") %}
+              <img src="{{url}}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h2 class="h3"><a class="stretched-link text-bg-dark" href="{{ page.permalink }}">{{ page.title }}</a>
                 </h2>
-                {% if page.extra.lead %}
+                {# {% if page.extra.lead %}
                 <p class="lead">{{ page.extra.lead | safe }}</p>{% elif page.description %}<p class="lead">{{
-                  page.description | safe }}</p>{% endif %}
+                  page.description | safe }}</p>
+                {% endif %} #}
               </div>
             </div>
             {% endfor %}
