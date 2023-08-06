@@ -9,6 +9,10 @@
 {% block content %}
   <main class="px-3">
     <section class="section">
+      <video autoplay muted loop id="main_video">
+        {% set url = get_url(path="videos/main.mp4") %}
+        <source src="{{url}}" type="video/mp4">
+      </video>
       <div>
         <h1>Enjoy the future with Gallop</h1>
         <h1>Full electric vehicles</h1>
