@@ -1,7 +1,11 @@
 {% macro header(current_section) %}
 <header class="mb-auto">
-    <div>
-        <h3 class="float-md-start mb-0">Gallop</h3>
+    <div class="col-sm-12 col-md-12 col-lg-10 col-xxl-8">
+        <div class="float-md-start px-5 mb-0">
+            <a class="nav-link" href="{{ config.base_url | safe }}">
+                <h3>Gallop</h3>
+            </a>
+        </div>
         <nav class="nav nav-masthead justify-content-center float-md-end">
             {% if config.extra.menu.main %}
             {% for val in config.extra.menu.main %}
