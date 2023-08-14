@@ -1,28 +1,28 @@
 {% extends "section.html" %}
 
 {% block header %}
-  {# This value is matched by the config.extra.menu.main~section #}
-  {% set current_section = "index" %}
-  {{ macros_header::header(current_section=current_section)}}
+{# This value is matched by the config.extra.menu.main~section #}
+{% set current_section = "index" %}
+{{ macros_header::header(current_section=current_section)}}
 {% endblock header %}
 
 {% block content %}
-  <main class="px-3">
-    <section class="section">
-      <video autoplay muted loop id="main_video">
-        {% set url = get_url(path="videos/main.mp4") %}
-        <source src="{{url}}" type="video/mp4">
-      </video>
-      <div>
-        <h1>Enjoy the future with Gallop</h1>
-        <h1>Full electric vehicles</h1>
-        <p class="lead">Whether it's four wheels, three wheels, two wheels, even one wheel, you can find them all in
-          Gallop
-        </p>
-        <p class="lead">
-          <a href="vehicles/" class="btn btn-lg btn-light fw-bold border-white bg-white">Explore</a>
-        </p>
-      </div>
-    </section>
-  </main>
+<main class="px-3">
+  <section class="section">
+    <video autoplay muted loop playsinline id="main_video">
+      {% set url = get_url(path="videos/main.mp4") %}
+      <source src="{{url}}" type="video/mp4">
+    </video>
+    <div>
+      <h1>Enjoy the future with Gallop</h1>
+      <h1>Full electric vehicles</h1>
+      <p class="lead">Whether it's four wheels, three wheels, two wheels, even one wheel, you can find them all in
+        Gallop
+      </p>
+      <p class="lead">
+        <a href="vehicles/" class="btn btn-lg btn-light fw-bold border-white bg-white">Explore</a>
+      </p>
+    </div>
+  </section>
+</main>
 {% endblock content %}
