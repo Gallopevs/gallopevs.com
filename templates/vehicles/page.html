@@ -25,14 +25,19 @@
           <h1 class="text-center">{{ page.title }}</h1>
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                {% set url = get_url(path="images/" ~ page.title ~ "-gallery-1.png") %}
-                <img src="{{url}}" class="d-block img-fluid rounded" alt=" ...">
+              {% for asset in page.assets -%}
+              {%- if asset is containing("gallery") -%}
+              {%- if asset is containing("-1.") -%}
+              {% set active = "active" %}
+              {% else %}
+              {% set active = "" %}
+              {%- endif %}
+              <div class="carousel-item {{active}}">
+                {% set url = get_url(path=asset) %}
+                <img src="{{url}}" class="d-block img-fluid rounded" alt="galleries">
               </div>
-              <div class="carousel-item">
-                {% set url = get_url(path="images/" ~ page.title ~ "-gallery-2.png") %}
-                <img src="{{url}}" class="d-block img-fluid rounded" alt="...">
-              </div>
+              {%- endif %}
+              {%- endfor %}
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
               data-bs-slide="prev">
@@ -48,29 +53,14 @@
 
           {% if page.extra.has_detail_images %}
           <div class="row">
-            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-1.png") %}
-              <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
-
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-2.png") %}
-              <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
-            </div>
-
-            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-3.png") %}
-              <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
-
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-4.png") %}
+            {% for asset in page.assets -%}
+            {%- if asset is containing("detail") -%}
+            <div class="col-4">
+              {% set url = get_url(path=asset) %}
               <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
             </div>
-
-            <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-5.png") %}
-              <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
-
-              {% set url = get_url(path="images/" ~ page.title ~ "-detail-6.png") %}
-              <img src="{{url}}" class="w-100 shadow-1-strong rounded mb-4" alt="details" />
-            </div>
+            {%- endif %}
+            {%- endfor %}
           </div>
           {% endif %}
 
