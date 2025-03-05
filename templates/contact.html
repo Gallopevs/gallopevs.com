@@ -1,18 +1,30 @@
-{% extends "section.html" %}
-
-{% block header %}
-  {# This value is matched by the config.extra.menu.main~section #}
-  {% set current_section = "contact" %}
-  {{ macros_header::header(current_section=current_section)}}
-{% endblock header %}
+{% extends "base.html" %}
 
 {% block content %}
-  <main class="px-3">
-    <section class="section">
-      <div>     
-        <h1>Hunnsvegen 3, 2821 Gjøvik, Norway</h1>
-        <h3>hello@gallopevs.com</h3>
-      </div>
-    </section>
-  </main>
-{% endblock content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="mb-5">Contact Us</h1>
+                <div class="row justify-content-center g-4">
+                    <div class="col-md-5">
+                        <div class="contact-card p-4 rounded h-100 d-flex flex-column align-items-center">
+                            <i class="bi bi-geo-alt fs-2 mb-3"></i>
+                            <h3 class="h5">Address</h3>
+                            <p class="mb-0">Hunnsvegen 3, 2821 Gjøvik, Norway</p>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="contact-card p-4 rounded h-100 d-flex flex-column align-items-center">
+                            <i class="bi bi-envelope fs-2 mb-3"></i>
+                            <h3 class="h5">Email</h3>
+                            <p class="mb-0"><a href="mailto:hello@gallopevs.com"
+                                    class="text-light text-decoration-none">hello@gallopevs.com</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

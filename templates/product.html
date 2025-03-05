@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5 product-section" style="background-image: url('{{ get_url(path=page.extra.image) }}')">
+    <div class="container position-relative">
+        <div class="row g-5">
+            <div class="col-md-6">
+                <!-- 主图片轮播 -->
+                <div id="productCarousel" class="carousel slide mb-4 position-relative" data-bs-ride="carousel">
+                    <div class="carousel-inner rounded-3">
+                        {% for image in page.extra.gallery %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ get_url(path=image) }}" class="d-block w-100 product-image" 
+                                 alt="{{ page.title }}" data-bs-toggle="modal" data-bs-target="#imageModal">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev custom-carousel-control" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next custom-carousel-control" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+                
+                <!-- 缩略图预览 -->
+                <div class="row g-2 thumbnail-container">
+                    {% for image in page.extra.gallery %}
+                    <div class="col-3">
+                        <div class="thumbnail-wrapper">
+                            <img src="{{ get_url(path=image) }}" class="img-fluid rounded cursor-pointer" 
+                                 data-bs-target="#productCarousel" data-bs-slide-to="{{ loop.index0 }}" alt="{{ page.title }}">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- 其余内容保持不变 -->
+            <div class="col-md-6">
+                <h1 class="display-4 mb-4">{{ page.title }}</h1>
+                <p class="lead">{{ page.description }}</p>
+                <div class="price-container mb-4">
+                    <h3 class="price-text">
+                        <span class="currency">NOK</span>
+                        <span class="amount">{{ page.extra.price }}</span>
+                    </h3>
+                </div>
+                
+                <!-- Specification Tabs -->
+                <nav>
+                    <div class="nav nav-tabs nav-fill rounded-top border-0" id="specs-tab" role="tablist">
+                        <button class="nav-link active px-4" data-bs-toggle="tab" data-bs-target="#basic" type="button">
+                            <i class="bi bi-info-circle me-2"></i>Basic
+                        </button>
+                        <button class="nav-link px-4" data-bs-toggle="tab" data-bs-target="#performance" type="button">
+                            <i class="bi bi-speedometer2 me-2"></i>Performance
+                        </button>
+                        <button class="nav-link px-4" data-bs-toggle="tab" data-bs-target="#battery" type="button">
+                            <i class="bi bi-battery-charging me-2"></i>Battery
+                        </button>
+                        <button class="nav-link px-4" data-bs-toggle="tab" data-bs-target="#features" type="button">
+                            <i class="bi bi-gear me-2"></i>Features
+                        </button>
+                    </div>
+                </nav>
+                
+                <div class="tab-content p-3 border border-top-0 rounded-bottom mb-4 bg-dark-gradient">
+                    <div class="tab-pane fade show active" id="basic">
+                        <ul class="list-unstyled">
+                            {% for spec in page.extra.specs %}
+                                {% if spec.name in ["EU Classification", "Dimensions (L×W×H)", "Seat Height", "Ground Clearance", "Wheelbase", "Curb Weight", "Carrying Capacity", "Tire Size"] %}
+                                <li class="py-2 border-bottom">
+                                    <strong>{{ spec.name }}:</strong> {{ spec.value }}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="performance">
+                        <ul class="list-unstyled">
+                            {% for spec in page.extra.specs %}
+                                {% if spec.name in ["Maximum Speed", "Power Output", "Maximum Range", "Acceleration", "Maximum Torque", "Climbing Angle", "Suspension Travel"] %}
+                                <li class="py-2 border-bottom">
+                                    <strong>{{ spec.name }}:</strong> {{ spec.value }}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="battery">
+                        <ul class="list-unstyled">
+                            {% for spec in page.extra.specs %}
+                                {% if spec.name in ["Battery", "Battery Weight", "Charging Time", "Removable Battery"] %}
+                                <li class="py-2 border-bottom">
+                                    <strong>{{ spec.name }}:</strong> {{ spec.value }}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="features">
+                        <ul class="list-unstyled">
+                            {% for spec in page.extra.specs %}
+                                {% if spec.name in ["Riding Modes", "Terrain Modes", "Smart Features", "Warranty", "Gear Module"] %}
+                                <li class="py-2 border-bottom">
+                                    <strong>{{ spec.name }}:</strong> {{ spec.value }}
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary btn-lg" onclick="bookTestRide()">Book Test Ride</button>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 图片放大模态框 -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 position-relative">
+                <button type="button" class="btn-close modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img id="modalImage" class="w-100" src="" alt="{{ page.title }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = new bootstrap.Carousel(document.querySelector('#productCarousel'));
+        const modalImage = document.getElementById('modalImage');
+        
+        // 点击图片时更新模态框中的图片
+        document.querySelectorAll('.product-image').forEach(img => {
+            img.addEventListener('click', function() {
+                modalImage.src = this.src;
+            });
+        });
+    });
+
+    function bookTestRide() {
+        const subject = `Test Ride Request - ${document.querySelector('h1').textContent}`;
+        const body = `Hi,\n\nI would like to book a test ride for ${document.querySelector('h1').textContent}.\n\nBest regards`;
+        const mailtoLink = `mailto:hello@gallopevs.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+    }
+</script>
+{% endblock %}

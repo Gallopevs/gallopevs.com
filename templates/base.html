@@ -1,43 +1,174 @@
-{% import 'macros/head.html' as macros_head %}
-{% import 'macros/header.html' as macros_header %}
-{% import 'macros/footer.html' as macros_footer %}
-{% import 'macros/javascript.html' as macros_js %}
 <!DOCTYPE html>
-<html lang="{{ config.extra.language_code | default(value=" en-US") }}" class="h-100" data-bs-theme="light">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  {{ macros_head::resource() }}
-  {{ macros_head::stylesheet() }}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {% block seo %}
-  {% if config.extra.title_separator %}
-  {% set title_separator = " " ~ config.extra.title_separator ~ " " %}
-  {% else %}
-  {% set title_separator = " | " %}
-  {% endif %}
-  {% endblock seo %}
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ganalytics }}"></script>
+    <script>
+        function initializeAnalytics() {
+            if (localStorage.getItem('cookieConsent') === 'accepted') {
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', '{{ config.extra.ganalytics }}');
+            }
+        }
+    </script>
 
-  {{ macros_head::favicons() }}
+    <!-- SEO Meta -->
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description"
+        content="{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}">
+    <meta name="keywords"
+        content="{% if page.extra.keywords %}{{ page.extra.keywords }}{% else %}{{ config.extra.keywords }}{% endif %}">
+    <link rel="canonical" href="{{ current_url | safe }}">
 
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ config.title }}{% endif %}">
+    <meta property="og:description"
+        content="{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}">
+    <meta property="og:type" content="{% if page.extra.og_type %}{{ page.extra.og_type }}{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ current_url | safe }}">
+    <meta property="og:image"
+        content="{% if page.extra.og_image %}{{ get_url(path=page.extra.og_image) }}{% else %}{{ get_url(path=config.extra.default_og_image) }}{% endif %}">
+    <meta property="og:site_name" content="{{ config.title }}">
+
+    <!-- Twitter Card -->
+    {#
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="{{ config.extra.twitter_handle }}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ config.title }}{% endif %}">
+    <meta name="twitter:description"
+        content="{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}">
+    <meta name="twitter:image"
+        content="{% if page.extra.og_image %}{{ get_url(path=page.extra.og_image) }}{% else %}{{ get_url(path=config.extra.default_og_image) }}{% endif %}">
+    #}
+
+    <!-- 其他 Meta -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="{{ config.extra.author }}">
+    <meta name="theme-color" content="#000000">
+
+
+    <!-- Favicon -->
+    {#
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ get_url(path='site.webmanifest') }}"> #}
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ get_url(path='css/custom.css') }}" rel="stylesheet">
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "{{ config.title }}",
+        "url": "{{ config.base_url }}",
+        {# "logo": "{{ get_url(path=config.extra.logo) }}", #}
+        "sameAs": [
+            {# "{{ config.extra.facebook_url }}",
+            "{{ config.extra.twitter_url }}",
+            "{{ config.extra.instagram_url }}" #}
+        ]
+    }
+    </script>
 </head>
 
-<body class="d-flex h-100 text-center text-bg-dark">
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    {% block header %}
-    {{ macros_header::header(current_section="/") }}
-    {% endblock header %}
+<body class="bg-dark text-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-gradient py-3">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                Gallop
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Models</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     {% block content %} {% endblock %}
 
-    {% block footer %}
-    {{ macros_footer::footer() }}
-    {% endblock footer %}
+    <!-- Footer -->
+    <footer class="bg-dark-gradient py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <div class="footer-links mb-4">
+                        <a href="/privacy-policy" class="text-light text-decoration-none mx-3">Privacy Policy</a>
+                        <span class="text-muted">|</span>
+                        <a href="/contact" class="text-light text-decoration-none mx-3">Contact</a>
+                    </div>
+                    <p class="mb-0 text-muted">&copy; 2025 <a href="https://secmetrics.no" class="text-muted text-decoration-none hover-text-light">Secmetrics AS</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-    {{ macros_js::javascript() }}
-  </div>
+    <!-- ... 在 footer 之后，body 结束标签之前添加 ... -->
+
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-content">
+            <p>We use cookies to enhance your browsing experience. By continuing to use this website, you agree to our
+                <a href="/privacy-policy" class="text-primary">Privacy Policy</a>.
+            </p>
+            <div class="cookie-buttons">
+                <button class="btn btn-sm btn-outline-light me-2" onclick="rejectCookies()">Decline</button>
+                <button class="btn btn-sm btn-primary" onclick="acceptCookies()">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function checkCookieConsent() {
+            return localStorage.getItem('cookieConsent');
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookieConsent', 'accepted');
+            document.getElementById('cookieConsent').style.display = 'none';
+            initializeAnalytics(); // 初始化 GA
+        }
+
+        function rejectCookies() {
+            localStorage.setItem('cookieConsent', 'rejected');
+            document.getElementById('cookieConsent').style.display = 'none';
+        }
+
+        function checkCookieConsent() {
+            const consent = localStorage.getItem('cookieConsent');
+            if (consent === 'accepted') {
+                initializeAnalytics(); // 如果已同意则初始化 GA
+            }
+            return consent;
+        }
+
+        if (!checkCookieConsent()) {
+            document.getElementById('cookieConsent').style.display = 'block';
+        }
+    </script>
 </body>
 
 </html>

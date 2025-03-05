@@ -1,28 +1,43 @@
-{% extends "section.html" %}
-
-{% block header %}
-{# This value is matched by the config.extra.menu.main~section #}
-{% set current_section = "index" %}
-{{ macros_header::header(current_section=current_section)}}
-{% endblock header %}
+{% extends "base.html" %}
 
 {% block content %}
-<main class="px-3">
-  <section class="section">
-    <video autoplay muted loop playsinline id="main_video">
-      {% set url = get_url(path="videos/main.mp4") %}
-      <source src="{{url}}" type="video/mp4">
+<!-- Hero Section -->
+<section class="hero position-relative overflow-hidden">
+    <!-- 背景视频 -->
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="{{ get_url(path='videos/main.mp4') }}" type="video/mp4">
     </video>
-    <div>
-      <h1>Enjoy the future with Gallop</h1>
-      <h1>Full electric vehicles</h1>
-      <p class="lead">Whether it's four wheels, three wheels, two wheels, even one wheel, you can find them all in
-        Gallop
-      </p>
-      <p class="lead">
-        <a href="vehicles/" class="btn btn-lg btn-light fw-bold border-white bg-white">Explore</a>
-      </p>
+
+    <!-- 内容层 -->
+    <div class="hero-content py-5">
+        <div class="container">
+            {% set section = get_section(path="_index.md") %}
+            <h1 class="display-3 fw-bold text-gradient mb-4">{{ section.title }}</h1>
+            <p class="lead mb-5 text-light">{{ section.description }}</p>
+            <a href="/products" class="btn btn-lg btn-primary px-5 py-3">Explore Models</a>
+        </div>
     </div>
-  </section>
-</main>
-{% endblock content %}
+</section>
+
+<!-- Featured Bikes -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Models</h2>
+        <div class="row g-4">
+            {% set products = get_section(path="products/_index.md") %}
+            {% for page in products.pages %}
+            <div class="col-md-4">
+                <div class="card h-100 bg-secondary border-0 hover-shadow">
+                    <img src="{{ get_url(path=page.extra.image) }}" class="card-img-top" alt="{{ page.title }}">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ page.title }}</h3>
+                        <p class="card-text">{{ page.description }}</p>
+                        <a href="{{ page.permalink }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
